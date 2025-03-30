@@ -4,13 +4,14 @@ import { HeroSection } from "@/components/hero-section"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ArrowRight, Shield, MessageSquare, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import Link from "next/link"
 
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <HeroSection />
 
-      <section className="py-16 bg-white dark:bg-gray-900">
+      <section className="py-16 bg-white dark:bg-gray-900" id="healthcare-assistant">
         <div className="container px-4">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold tracking-tight mb-2">AI-Powered Healthcare Assistant</h2>
@@ -81,9 +82,11 @@ export default function Home() {
           </div>
 
           <div className="text-center mt-12">
-            <Button className="bg-medical-600 hover:bg-medical-700">
-              Learn More <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            <Link href="/doctors">
+              <Button className="bg-medical-600 hover:bg-medical-700">
+                Find Doctors <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -200,6 +203,14 @@ export default function Home() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+
+          <div className="text-center mt-12">
+            <Link href="/integrations">
+              <Button className="bg-medical-600 hover:bg-medical-700">
+                Explore Integrations <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

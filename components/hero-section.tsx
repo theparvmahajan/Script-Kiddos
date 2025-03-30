@@ -1,7 +1,12 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Heart, Shield, MessageSquare, Phone } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export function HeroSection() {
+  const router = useRouter()
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-white to-medical-50 dark:from-gray-950 dark:to-gray-900">
       <div className="container px-4 py-16 md:py-24 lg:py-32">
@@ -18,10 +23,17 @@ export function HeroSection() {
               area. Available in multiple languages with voice support.
             </p>
             <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-              <Button size="lg" className="bg-medical-600 hover:bg-medical-700">
+              <Button
+                size="lg"
+                className="bg-medical-600 hover:bg-medical-700"
+                onClick={() => {
+                  // Scroll to the healthcare assistant section
+                  document.getElementById("healthcare-assistant")?.scrollIntoView({ behavior: "smooth" })
+                }}
+              >
                 Get Started <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline">
+              <Button size="lg" variant="outline" onClick={() => router.push("/first-aid")}>
                 Learn More
               </Button>
             </div>
@@ -84,10 +96,17 @@ export function HeroSection() {
               </div>
 
               <div className="flex gap-2">
-                <Button variant="outline" size="sm" className="w-full">
+                <Button variant="outline" size="sm" className="w-full" onClick={() => router.push("/first-aid")}>
                   Learn More
                 </Button>
-                <Button size="sm" className="w-full bg-medical-600 hover:bg-medical-700">
+                <Button
+                  size="sm"
+                  className="w-full bg-medical-600 hover:bg-medical-700"
+                  onClick={() => {
+                    // Scroll to the healthcare assistant section
+                    document.getElementById("healthcare-assistant")?.scrollIntoView({ behavior: "smooth" })
+                  }}
+                >
                   Try Now
                 </Button>
               </div>

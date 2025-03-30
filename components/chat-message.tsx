@@ -78,10 +78,10 @@ export function ChatMessage({ message }: { message: Message }) {
       <div className="flex-1">
         <div
           className={cn(
-            "flex flex-col space-y-2 p-4 rounded-lg max-w-[90%]",
+            "flex flex-col space-y-2 p-4 rounded-lg",
             isAssistant
-              ? "bg-white border border-medical-100 shadow-sm text-gray-800 self-start rounded-tl-none"
-              : "bg-medical-600 text-white self-end rounded-tr-none",
+              ? "bg-white border border-medical-100 shadow-sm text-gray-800 self-start rounded-tl-none max-w-[90%]"
+              : "bg-medical-600 text-white self-end rounded-tr-none ml-auto max-w-[90%]",
           )}
         >
           <div className="text-sm">
@@ -94,20 +94,39 @@ export function ChatMessage({ message }: { message: Message }) {
               if (numberedListMatch) {
                 return (
                   <div key={i} className="flex gap-2 mb-1">
-                    <span className="font-medium">{numberedListMatch[1]}.</span>
+                    <span className="font-medium min-w-[20px]">{numberedListMatch[1]}.</span>
                     <span>{numberedListMatch[2]}</span>
                   </div>
                 )
               } else if (bulletListMatch) {
                 return (
                   <div key={i} className="flex gap-2 mb-1">
-                    <span className="text-medical-500">•</span>
+                    <span className="text-medical-500 min-w-[20px]">•</span>
                     <span>{bulletListMatch[1]}</span>
                   </div>
                 )
               } else if (line.trim() === "") {
                 // Empty line becomes a margin
                 return <div key={i} className="h-2"></div>
+              } else if (line.trim().startsWith("**") && line.trim().endsWith("**")) {
+                // Bold text (e.g., **Important**)
+                const boldText = line.trim().slice(2, -2)
+                return (
+                  <p key={i} className="font-bold mb-1">
+                    {boldText}
+                  </p>
+                )
+              } else if (
+                line.trim().startsWith("First aid steps:") ||
+                line.trim().startsWith("Symptoms:") ||
+                line.trim().startsWith("What to do:")
+              ) {
+                // Section headers
+                return (
+                  <p key={i} className="font-medium text-medical-700 mb-1">
+                    {line}
+                  </p>
+                )
               } else {
                 // Regular text
                 return (

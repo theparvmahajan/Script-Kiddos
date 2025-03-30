@@ -21,21 +21,29 @@ export function MedicalImageGenerator() {
     setError(null)
 
     try {
-      const response = await fetch("/api/generate-image", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt }),
-      })
+      // Simulate API delay
+      await new Promise((resolve) => setTimeout(resolve, 1500))
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Failed to generate image")
-      }
+      // Generate a placeholder image with the prompt text
+      const placeholderUrl = `/api/placeholder-svg?height=300&width=400&text=${encodeURIComponent(prompt.substring(0, 30))}`
+      setGeneratedImage(placeholderUrl)
 
-      const data = await response.json()
-      setGeneratedImage(data.imageUrl)
+      // Note: In a real implementation, you would call the API endpoint
+      // const response = await fetch("/api/generate-image", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({ prompt }),
+      // });
+      //
+      // if (!response.ok) {
+      //   const errorData = await response.json();
+      //   throw new Error(errorData.error || "Failed to generate image");
+      // }
+      //
+      // const data = await response.json();
+      // setGeneratedImage(data.imageUrl);
     } catch (error) {
       console.error("Error generating image:", error)
       setError(error instanceof Error ? error.message : "An unknown error occurred")
@@ -47,9 +55,12 @@ export function MedicalImageGenerator() {
   const handleDownload = () => {
     if (!generatedImage) return
 
+    // Create a temporary link element
     const link = document.createElement("a")
     link.href = generatedImage
     link.download = `medical-illustration-${Date.now()}.png`
+
+    // Append to the document, click it, and remove it
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)

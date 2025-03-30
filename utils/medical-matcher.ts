@@ -44,6 +44,23 @@ export async function generateResponse(input: string): Promise<string> {
 
     const data = await response.json()
 
+    // Ensure consistent formatting for responses
+    if (data.response) {
+      // Make sure numbered lists have a space after the period
+      data.response = data.response.replace(/(\d+\.)([\w])/g, "$1 $2")
+
+      // Make sure bullet points have a space after them
+      data.response = data.response.replace(/(-)([\w])/g, "$1 $2")
+
+      // Ensure important sections are properly formatted
+      const sections = ["First aid steps:", "Symptoms:", "What to do:"]
+      sections.forEach((section) => {
+        if (data.response.includes(section) && !data.response.includes(`\n${section}`)) {
+          data.response = data.response.replace(section, `\n${section}`)
+        }
+      })
+    }
+
     if (!data.response) {
       throw new Error("Invalid response format from API")
     }
